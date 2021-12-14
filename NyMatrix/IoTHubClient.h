@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <Arduino.h>
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h>
@@ -10,7 +9,7 @@ class IoTHubClient
 {
 public:
     enum class State { disconnected, connectingWifi, connectingMqtt, connectedMqtt };
-    IoTHubClient(const char* ssid, const char* password, const char* mqttHost, const char* mqttDevice, const char* mqttPassword, MQTT_CALLBACK_SIGNATURE);
+    IoTHubClient(const std::string& ssid, const std::string& password, const std::string& mqttHost, const std::string& mqttDevice, const std::string& mqttPassword, MQTT_CALLBACK_SIGNATURE);
     State getState() const { return state; }
     void loop();
 private:

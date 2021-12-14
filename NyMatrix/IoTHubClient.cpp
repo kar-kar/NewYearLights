@@ -1,13 +1,13 @@
 #include "IoTHubClient.h"
 
-IoTHubClient::IoTHubClient(const char* ssid, const char* password, const char* mqttHost, const char* mqttDevice, const char* mqttPassword, MQTT_CALLBACK_SIGNATURE)
+IoTHubClient::IoTHubClient(const std::string& ssid, const std::string& password, const std::string& mqttHost, const std::string& mqttDevice, const std::string& mqttPassword, MQTT_CALLBACK_SIGNATURE)
     :ssid(ssid), password(password), mqttHost(mqttHost), mqttDevice(mqttDevice), mqttPassword(mqttPassword), psClient(wifiClient)
 {
     mqttUserName = this->mqttHost + "/" + this->mqttDevice + "/?api-version=2018-06-30";
     mqttSubscribeTopic = "devices/" + this->mqttDevice + "/messages/devicebound/#";
     mqttPublishTopic = "devices/" + this->mqttDevice + "/messages/events/";
     wifiClient.setInsecure();
-    psClient.setServer(mqttHost, 8883);
+    psClient.setServer(this->mqttHost.c_str(), 8883);
     psClient.setCallback(callback);
 }
 
@@ -73,7 +73,6 @@ void IoTHubClient::checkWiFiConnectingStatus()
         Serial.println(WiFi.localIP());
         state = State::connectingMqtt;
         break;
-    case WL_NO_SHIELD:
     case WL_NO_SSID_AVAIL:
     case WL_CONNECT_FAILED:
         Serial.print("WiFi connection failed, status = ");

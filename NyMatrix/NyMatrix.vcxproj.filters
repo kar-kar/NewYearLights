@@ -21,21 +21,33 @@
     <ClInclude Include="__vm\.NyMatrix.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Kostya\Documents\Arduino\ny_matrix\Blinker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IoTHubClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DeviceConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyLayout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Blinker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Users\Kostya\Documents\Arduino\ny_matrix\Blinker.cpp">
+    <ClCompile Include="IoTHubClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IoTHubClient.cpp">
+    <ClCompile Include="Rain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Blinker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
