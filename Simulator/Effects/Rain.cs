@@ -10,7 +10,7 @@ namespace Simulator.Effects
         private class Drop
         {
             public int X { get; set; }
-            public double Y { get; set; }
+            public float Y { get; set; }
             public Color Color { get; set; }
         };
 
@@ -18,9 +18,9 @@ namespace Simulator.Effects
         private Drop[] drops = Array.Empty<Drop>();
         private long lastMillis;
 
-        public Color Background { get; set; } = Color.FromRgb(0, 0, 0);
-        public double Speed { get; set; } = 0.01;
-        public double Tail { get; set; } = 3;
+        public Color Background { get; set; } = Color.FromRgb(10, 10, 10);
+        public float Speed { get; set; } = 0.01f;
+        public float Tail { get; set; } = 3f;
         public int MinDistance { get; set; } = 5;
         public int MaxDistance { get; set; } = 20;
         public Color[] Colors { get; set; } = new[]
@@ -68,12 +68,14 @@ namespace Simulator.Effects
 
         private void Move(long dt)
         {
+            var dy = Speed * dt;
+
+            foreach (var drop in drops)
+                drop.Y += dy;
+
             for (var i = 0; i < drops.Length; i++)
-            {
-                drops[i].Y += Speed * dt;
                 if (drops[i].Y > matrix.Height + Tail * 2)
                     drops[i] = CreateDrop(drops, drops[i].X);
-            }
         }
 
         private void Draw()
@@ -88,13 +90,15 @@ namespace Simulator.Effects
                 for (var pixelY = 0; pixelY < matrix.Height; pixelY++)
                 {
                     var dist = Math.Abs(pixelY - drop.Y);
-                    var factor = 1 - Math.Pow(dist + 0.4, 2);
-                    factor = Math.Max(0.0, Math.Min(1.0, factor));
+                    var factor = 1f - MathF.Pow(dist + 0.3f, 2);
+                    factor = Math.Max(0f, Math.Min(1f, factor));
+
                     if (pixelY < drop.Y && Tail > 0)
                     {
-                        factor += 1 - Math.Pow(1.5, dist - Tail);
-                        factor = Math.Max(0.0, Math.Min(1.0, factor));
+                        factor += 1 - MathF.Pow(1.5f, dist - Tail);
+                        factor = Math.Max(0f, Math.Min(1f, factor));
                     }
+
                     var color = Color.Multiply(drop.Color, (float)factor);
                     var pixel = matrix[drop.X, pixelY];
                     pixel.Color = pixel.Color.BlendLighten(color);
@@ -104,7 +108,7 @@ namespace Simulator.Effects
 
         private Drop CreateDrop(IEnumerable<Drop> existingDrops, int x)
         {
-            var minY = 0.0;
+            var minY = 0f;
             foreach (var drop in existingDrops)
                 if (drop.X == x)
                     minY = Math.Min(minY, drop.Y);

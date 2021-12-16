@@ -39,10 +39,11 @@ namespace Simulator
                 new Rain(Matrix),
                 new Rain(Matrix)
                 {
-                    Speed = 0.005,
+                    Speed = 0.003f,
+                    Background = Colors.Black,
                     Colors = new[] { Colors.White },
-                    Tail = 0,
-                    MinDistance = 2,
+                    Tail = 0f,
+                    MinDistance = 3,
                     MaxDistance = 7
                 }
             };

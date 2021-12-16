@@ -34,7 +34,7 @@ int frameCount = 0;
 std::vector<Effect*> effects =
 {
     new Rain(&matrix, &topo),
-    new Rain(&matrix, &topo, { RgbColor(255, 255, 255) }, RgbColor(0, 0, 0), 0.005, 0, 2, 7)
+    new Rain(&matrix, &topo, { RgbColor(255, 255, 255) }, RgbColor(0, 0, 0), 0.003, 0, 3, 7)
 };
 
 void setup()
@@ -53,6 +53,7 @@ void loop()
     if (isRunning)
     {
         effects[currentEffectIndex]->loop();
+        matrix.Show();
         countFps();
     }
 }
@@ -73,7 +74,12 @@ void start()
 
 void stop()
 {
+    if (!isRunning)
+        return;
+
     Serial.println("Stopping effects");
+    matrix.ClearTo(RgbColor(0));
+    matrix.Show();
     isRunning = false;
 }
 

@@ -35,7 +35,7 @@ public:
         case 9:
             return 150; //invisible
         case 10:
-            return 122 - y;
+            return 112 - y;
         case 11:
             return 114 + y;
         case 12:

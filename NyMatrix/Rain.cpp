@@ -8,7 +8,7 @@ Rain::Rain(NeoPixelBus<NeoGrbFeature, NeoEsp8266DmaWs2812xMethod>* matrix, NeoTo
 
 void Rain::setup()
 {
-    auto dropCount = ((MATRIX_HEIGHT + tail * 2) / (minDistance + 1) + 1) * MATRIX_WIDTH;
+    auto dropCount = ((MATRIX_HEIGHT + (int)tail * 2) / (minDistance + 1) + 1) * MATRIX_WIDTH;
     drops.clear();
     int x = 0;
 
@@ -38,7 +38,7 @@ void Rain::loop()
 Rain::Drop Rain::createDrop(int x)
 {
     auto minY = 0.0f;
-    for (const auto &drop : drops)
+    for (const auto& drop : drops)
         if (drop.x == x)
             minY = min(minY, drop.y);
 
@@ -59,19 +59,21 @@ void Rain::clear()
 
 void Rain::move(unsigned long dt)
 {
+    auto dy = speed * dt;
+
+    for (auto& drop : drops)
+        drop.y += dy;
+
     for (int i = 0; i < drops.size(); i++)
-    {
-        drops[i].y += speed * dt;
         if (drops[i].y > MATRIX_HEIGHT + tail * 2)
             drops[i] = createDrop(drops[i].x);
-    }
 }
 
 void Rain::draw()
 {
     clear();
 
-    for (auto& drop : drops)
+    for (const auto& drop : drops)
     {
         if (drop.y < -1)
             continue;
@@ -79,7 +81,7 @@ void Rain::draw()
         for (int pixelY = 0; pixelY < MATRIX_HEIGHT; pixelY++)
         {
             float dist = abs(pixelY - drop.y);
-            float factor = 1 - pow(dist + 0.4f, 2);
+            float factor = 1 - pow(dist + 0.3f, 2);
             factor = max(0.0f, min(1.0f, factor));
 
             if (pixelY < drop.y && tail > 0)

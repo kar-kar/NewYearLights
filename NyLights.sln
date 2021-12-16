@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NyMatrix", "NyMatrix\NyMatrix.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "Simulator\Simulator.csproj", "{E6F16C78-5839-4535-ABD0-CC7C3EC91607}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simulator", "Simulator\Simulator.csproj", "{E6F16C78-5839-4535-ABD0-CC7C3EC91607}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

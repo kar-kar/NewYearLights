@@ -28,8 +28,8 @@ private:
         RgbColor(0, 0, 255)
     };
 
-    RgbColor background = RgbColor(0, 0, 0);
-    float speed = 0.01f;
+    RgbColor background = RgbColor(10, 10, 20);
+    float speed = 0.008f;
     float tail = 3.0f;
     int minDistance = 5;
     int maxDistance = 20;
