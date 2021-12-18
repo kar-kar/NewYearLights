@@ -20,11 +20,10 @@ private:
 
     std::vector<RgbColor> colors =
     {
+        RgbColor(0, 0, 100),
         RgbColor(100, 100, 255),
-        RgbColor(255, 0, 255),
         RgbColor(100, 0, 255),
         RgbColor(0, 100, 255),
-        RgbColor(0, 255, 255),
         RgbColor(0, 0, 255)
     };
 

@@ -63,7 +63,7 @@ void start()
     if (isRunning)
         return;
 
-    Serial.println("Starting effects");
+    Serial.println("Start effects");
 
     effects[currentEffectIndex]->setup();
     currentEffectStart = millis();
@@ -77,7 +77,7 @@ void stop()
     if (!isRunning)
         return;
 
-    Serial.println("Stopping effects");
+    Serial.println("Stop effects");
     matrix.ClearTo(RgbColor(0));
     matrix.Show();
     isRunning = false;
@@ -86,9 +86,19 @@ void stop()
 void next()
 {
     currentEffectIndex = (currentEffectIndex + 1) % effects.size();
-    Serial.print("Switching to effect #");
+    Serial.print("Switch to effect #");
     Serial.println(currentEffectIndex);
     effects[currentEffectIndex]->setup();
+}
+
+void setBrightness(int percentage)
+{
+    Serial.print("Set brightness to ");
+    Serial.println(percentage);
+
+    auto brightness = (float)percentage / 100.0f;
+    for (auto& effect : effects)
+        effect->setBrightness(brightness);
 }
 
 void countFps()
@@ -138,4 +148,6 @@ void mqttCallback(char* topic, byte* payload, unsigned int length)
         stop();
     else if (message == "next")
         next();
+    else if (message.rfind("br ", 0) == 0)
+        setBrightness(std::atoi(message.substr(3).c_str()));
 }

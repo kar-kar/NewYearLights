@@ -54,7 +54,7 @@ void Rain::clear()
 {
     for (int x = 0; x < MATRIX_WIDTH; x++)
         for (int y = 0; y < MATRIX_WIDTH; y++)
-            matrix->SetPixelColor(topo->Map(x, y), background);
+            matrix->SetPixelColor(topo->Map(x, y), brightness);
 }
 
 void Rain::move(unsigned long dt)
@@ -99,6 +99,19 @@ void Rain::draw()
             newColor.G = max(newColor.G, pixelColor.G);
             newColor.B = max(newColor.B, pixelColor.B);
             matrix->SetPixelColor(topo->Map(drop.x, pixelY), newColor);
+        }
+    }
+
+    auto dimRatio = (byte)(brightness * 255);
+    if (dimRatio < 255)
+    {
+        for (int x = 0; x < MATRIX_WIDTH; x++)
+        {
+            for (int y = 0; y < MATRIX_WIDTH; y++)
+            {
+                auto color = matrix->GetPixelColor(topo->Map(x, y));
+                matrix->SetPixelColor(topo->Map(x, y), color.Dim(dimRatio));
+            }
         }
     }
 }

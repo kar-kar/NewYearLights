@@ -25,12 +25,11 @@ namespace Simulator.Effects
         public int MaxDistance { get; set; } = 20;
         public Color[] Colors { get; set; } = new[]
         {
-            Color.FromRgb(255, 0, 255),
+            Color.FromRgb(0, 0, 100),
             Color.FromRgb(100, 100, 255),
             Color.FromRgb(0, 100, 255),
             Color.FromRgb(100, 0, 255),
-            Color.FromRgb(0, 255, 255),
-            Color.FromRgb(0, 0, 255),
+            Color.FromRgb(0, 0, 255)
         };
 
         public Rain(Matrix matrix) : base(matrix)
