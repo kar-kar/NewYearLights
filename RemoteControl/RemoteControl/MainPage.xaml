@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:RemoteControl"
+             x:Class="RemoteControl.MainPage">
+    <ContentPage.Resources>
+        <Style x:Key="StandardBtn" TargetType="Button">
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush>
+                        <GradientStop Offset="0.1"  Color="DeepSkyBlue"/>
+                        <GradientStop Offset="1.0" Color="Black"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Margin" Value="24,8" />
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <local:MainPageViewModel />
+    </ContentPage.BindingContext>
+    <Grid BackgroundColor="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Label Margin="24,16" Text="New Year Lights" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" FontSize="Title" />
+            <Button Grid.Column="1" Text="Reset" Command="{Binding ResetCmd}" FontSize="Micro" WidthRequest="60" HeightRequest="35" CornerRadius="8" Margin="24,16" HorizontalOptions="End" VerticalOptions="Center" TextColor="White" BackgroundColor="Black" />
+        </Grid>
+        <Label Grid.Row="1" Text="{Binding Brightness, StringFormat=Brightness \{0\}%}" HorizontalOptions="Start" TextColor="Gray" Margin="24,8,8,0" />
+        <Slider Grid.Row="2" Value="{Binding Brightness, Mode=TwoWay}" Margin="8,0,8,32" Minimum="0" Maximum="100" MinimumTrackColor="DeepSkyBlue" MaximumTrackColor="Gray" ThumbColor="DeepSkyBlue" />
+        <Button Grid.Row="3" Text="Start" Command="{Binding StartCmd}" Style="{StaticResource StandardBtn}" />
+        <Button Grid.Row="4" Text="Stop" Command="{Binding StopCmd}" Style="{StaticResource StandardBtn}" />
+        <Button Grid.Row="5" Text="Next" Command="{Binding NextCmd}" Style="{StaticResource StandardBtn}" />
+        <Label Grid.Row="6" Text="{Binding Status}" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Center" Margin="32" />
+    </Grid>
+</ContentPage>

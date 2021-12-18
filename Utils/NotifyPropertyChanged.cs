@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Simulator
+namespace Utils
 {
     public class NotifyPropertyChanged : INotifyPropertyChanged
     {

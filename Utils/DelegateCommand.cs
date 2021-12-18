@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Simulator
+namespace Utils
 {
     public class DelegateCommand : ICommand
     {
