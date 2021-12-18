@@ -11,7 +11,7 @@ namespace RemoteControl
 {
     public class MainPageViewModel: NotifyPropertyChanged
     {
-        private int brightness = 100;
+        private int brightness = 50;
         private string? status;
 
         public int Brightness
