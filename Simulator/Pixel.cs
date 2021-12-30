@@ -1,4 +1,5 @@
 ﻿using System.Windows.Media;
+using Utils;
 
 namespace Simulator
 {

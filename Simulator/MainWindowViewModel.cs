@@ -35,9 +35,12 @@ namespace Simulator
             StopCmd = new DelegateCommand(p => Stop());
             NextCmd = new DelegateCommand(p => Next());
 
-            effects = new[]
+            effects = new Effect[]
             {
-                new Rain(Matrix),
+                new Rain(Matrix)
+                {
+                    Background = Color.FromRgb(10, 10, 10)
+                },
                 new Rain(Matrix)
                 {
                     Speed = 0.003f,
@@ -46,7 +49,8 @@ namespace Simulator
                     Tail = 0f,
                     MinDistance = 3,
                     MaxDistance = 7
-                }
+                },
+                new Wave(Matrix)
             };
 
             effect = effects[0];

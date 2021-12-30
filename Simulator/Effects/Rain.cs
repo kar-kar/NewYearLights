@@ -16,9 +16,7 @@ namespace Simulator.Effects
 
         private readonly Random rnd = new Random();
         private Drop[] drops = Array.Empty<Drop>();
-        private long lastMillis;
 
-        public Color Background { get; set; } = Color.FromRgb(10, 10, 10);
         public float Speed { get; set; } = 0.01f;
         public float Tail { get; set; } = 3f;
         public int MinDistance { get; set; } = 5;
@@ -36,7 +34,7 @@ namespace Simulator.Effects
         {
         }
 
-        public override void Setup()
+        protected override void SetupInternal()
         {
             var dropCount = ((matrix.Height + Tail * 2) / (MinDistance + 1) + 1) * matrix.Width;
             var drops = new List<Drop>();
@@ -47,20 +45,10 @@ namespace Simulator.Effects
                 x = (x + 1) % matrix.Width;
             }
             this.drops = drops.ToArray();
-
-            Clear();
-            lastMillis = watch.ElapsedMilliseconds;
         }
 
-        public override void Loop()
+        protected override void LoopInternal(long dt)
         {
-            var ms = watch.ElapsedMilliseconds;
-            var dt = ms - lastMillis;
-            lastMillis = ms;
-
-            if (dt == 0)
-                return;
-
             Move(dt);
             Draw();
         }
@@ -73,7 +61,7 @@ namespace Simulator.Effects
                 drop.Y += dy;
 
             for (var i = 0; i < drops.Length; i++)
-                if (drops[i].Y > matrix.Height + Tail * 2)
+                if (drops[i].Y > matrix.Height + Tail * 2 + 1)
                     drops[i] = CreateDrop(drops, drops[i].X);
         }
 
@@ -89,8 +77,8 @@ namespace Simulator.Effects
                 for (var pixelY = 0; pixelY < matrix.Height; pixelY++)
                 {
                     var dist = Math.Abs(pixelY - drop.Y);
-                    var factor = 1f - MathF.Pow(dist + 0.3f, 2);
-                    factor = Math.Max(0f, Math.Min(1f, factor));
+                    var factor = 1f - MathF.Pow(dist + 0.25f, 2);
+                    factor = Math.Clamp(factor, 0f, 1f);
 
                     if (pixelY < drop.Y && Tail > 0)
                     {
@@ -118,12 +106,6 @@ namespace Simulator.Effects
                 Y = minY - rnd.Next(MinDistance, MaxDistance + 1),
                 Color = Colors[rnd.Next(Colors.Length)]
             };
-        }
-
-        private void Clear()
-        {
-            foreach (var pixel in matrix.Pixels)
-                pixel.Color = Background;
         }
     }
 }

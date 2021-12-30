@@ -6,10 +6,11 @@ class Rain : public Effect
 {
 public:
     using Effect::Effect;
-    Rain(NeoPixelBus<NeoGrbFeature, NeoEsp8266DmaWs2812xMethod>* matrix, NeoTopology<MyLayout>* topo,
-        const std::vector<RgbColor>& colors, RgbColor background, float speed, float tail, int minDistance, int maxDistance);
-    void setup();
-    void loop();
+    Rain(NeoPixelBus<NeoGrbFeature, NeoEsp8266DmaWs2812xMethod>* matrix, NeoTopology<MyLayout>* topo, RgbColor background,
+        const std::vector<RgbColor>& colors, float speed, float tail, int minDistance, int maxDistance);
+protected:
+    void setupInternal();
+    void loopInternal(unsigned long dt);
 private:
     struct Drop
     {
@@ -27,16 +28,13 @@ private:
         RgbColor(0, 0, 255)
     };
 
-    RgbColor background = RgbColor(10, 10, 20);
     float speed = 0.008f;
     float tail = 3.0f;
     int minDistance = 5;
     int maxDistance = 20;
     std::vector<Drop> drops;
-    unsigned long lastMillis;
 
     Drop createDrop(int x);
-    void clear();
     void move(unsigned long dt);
     void draw();
 };

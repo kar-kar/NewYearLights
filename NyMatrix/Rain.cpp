@@ -1,12 +1,12 @@
 #include "Rain.h"
 
-Rain::Rain(NeoPixelBus<NeoGrbFeature, NeoEsp8266DmaWs2812xMethod>* matrix, NeoTopology<MyLayout>* topo,
-    const std::vector<RgbColor>& colors, RgbColor background, float speed, float tail, int minDistance, int maxDistance)
-    : Effect(matrix, topo), colors(colors), background(background), speed(speed), tail(tail), minDistance(minDistance), maxDistance(maxDistance)
+Rain::Rain(NeoPixelBus<NeoGrbFeature, NeoEsp8266DmaWs2812xMethod>* matrix, NeoTopology<MyLayout>* topo, RgbColor background,
+    const std::vector<RgbColor>& colors, float speed, float tail, int minDistance, int maxDistance)
+    : Effect(matrix, topo, background), colors(colors), speed(speed), tail(tail), minDistance(minDistance), maxDistance(maxDistance)
 {
 }
 
-void Rain::setup()
+void Rain::setupInternal()
 {
     auto dropCount = ((MATRIX_HEIGHT + (int)tail * 2) / (minDistance + 1) + 1) * MATRIX_WIDTH;
     drops.clear();
@@ -17,20 +17,10 @@ void Rain::setup()
         drops.push_back(createDrop(x));
         x = (x + 1) % MATRIX_WIDTH;
     }
-
-    clear();
-    lastMillis = millis();
 }
 
-void Rain::loop()
+void Rain::loopInternal(unsigned long dt)
 {
-    auto ms = millis();
-    auto dt = ms - lastMillis;
-    lastMillis = ms;
-
-    if (dt == 0)
-        return;
-
     move(dt);
     draw();
 }
@@ -50,13 +40,6 @@ Rain::Drop Rain::createDrop(int x)
     };
 }
 
-void Rain::clear()
-{
-    for (int x = 0; x < MATRIX_WIDTH; x++)
-        for (int y = 0; y < MATRIX_WIDTH; y++)
-            matrix->SetPixelColor(topo->Map(x, y), brightness);
-}
-
 void Rain::move(unsigned long dt)
 {
     auto dy = speed * dt;
@@ -65,7 +48,7 @@ void Rain::move(unsigned long dt)
         drop.y += dy;
 
     for (int i = 0; i < drops.size(); i++)
-        if (drops[i].y > MATRIX_HEIGHT + tail * 2)
+        if (drops[i].y > MATRIX_HEIGHT + tail * 2 + 1)
             drops[i] = createDrop(drops[i].x);
 }
 
@@ -81,7 +64,7 @@ void Rain::draw()
         for (int pixelY = 0; pixelY < MATRIX_HEIGHT; pixelY++)
         {
             float dist = abs(pixelY - drop.y);
-            float factor = 1 - pow(dist + 0.3f, 2);
+            float factor = 1 - pow(dist + 0.25f, 2);
             factor = max(0.0f, min(1.0f, factor));
 
             if (pixelY < drop.y && tail > 0)
@@ -102,16 +85,5 @@ void Rain::draw()
         }
     }
 
-    auto dimRatio = (byte)(brightness * 255);
-    if (dimRatio < 255)
-    {
-        for (int x = 0; x < MATRIX_WIDTH; x++)
-        {
-            for (int y = 0; y < MATRIX_WIDTH; y++)
-            {
-                auto color = matrix->GetPixelColor(topo->Map(x, y));
-                matrix->SetPixelColor(topo->Map(x, y), color.Dim(dimRatio));
-            }
-        }
-    }
+    dim();
 }

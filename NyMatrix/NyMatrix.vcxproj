@@ -122,12 +122,15 @@
     <ClInclude Include="IoTHubClient.h" />
     <ClInclude Include="MyLayout.h" />
     <ClInclude Include="Rain.h" />
+    <ClInclude Include="Wave.h" />
     <ClInclude Include="__vm\.NyMatrix.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blinker.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="IoTHubClient.cpp" />
     <ClCompile Include="Rain.cpp" />
+    <ClCompile Include="Wave.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
